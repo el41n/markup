@@ -15,7 +15,7 @@ jobs:
   test-flake8:
     docker:
       - image: circleci/python:3.5
-    step:
+    steps:
       - checkout
       - run: sudo pip install tox
       - run: tox -eflake8
