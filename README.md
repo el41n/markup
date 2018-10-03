@@ -6,11 +6,17 @@ Markup is web markdown language editor. Requirements [RU](https://github.com/el4
 
 ### Prerequisites
 
-Project is based on python 3 and Django framework. First install python3
+Project is based on python 3 and Django framework, Angular framework. First install python3
 
 ```
 apt-get install python3
 apt-get install python3-dev python-pip
+```
+
+Install Angular. Installed node is required.
+
+```
+npm install -g @angular/cli
 ```
 
 ### Installing
@@ -32,14 +38,3 @@ flake8 path/to/code/
 ## Authors
 
 * **Elchyn Cheliabiyeu** - *Software engineer* - [el41n](https://github.com/el41n)
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
-
