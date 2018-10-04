@@ -1,6 +1,6 @@
 # Markup
 
-Markup is web markdown language editor. Requirements [RU](https://github.com/el41n/markup/docs/SRS(RU).md)
+Markup is web markdown language editor. Requirements [RU](https://github.com/el41n/markup/blob/master/docs/SRS(RU).md)
 
 ## Getting Started
 
