@@ -1,0 +1,11 @@
+<div class="containers">
+
+  <div class="container">
+    <textarea class="inputPane" [(ngModel)]="raw_text"></textarea>
+  </div>
+
+  <div class="container">
+    <markdown class="pane" ngPreserveWhitespaces [data]="raw_text">dddd</markdown>
+  </div>
+
+</div>
