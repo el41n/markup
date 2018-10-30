@@ -4,6 +4,8 @@ Markup is web markdown language editor. Requirements [RU](https://github.com/el4
 
 ## Getting Started
 
+## [Documentation](https://github.com/el41n/markup/blob/master/docs/)
+
 ### Prerequisites
 
 Project is based on python 3 and Django framework, Angular framework. First install python3
