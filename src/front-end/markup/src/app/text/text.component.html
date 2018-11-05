@@ -1,11 +1,35 @@
+ <nav class="navbar navbar-light navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/MarkUp">MarkUp</a>
+    </div>
+    <div>
+      <a class="btn" target="_blank" download="{{ fullFileName }}" [href]="sanitize(url)" (click)="saveMD()">Download MD</a>
+      <a class="btn" target="_blank" download="{{ fullFileName }}" [href]="sanitize(url)" (click)="saveHTML()">Download HTML</a>
+      <input [(ngModel)]="fileName">
+    </div>
+    <div class="navbar-left btn-group">
+      <button class="btn btn-danger navbar-btn ">Button</button>
+      <button class="btn btn-danger navbar-btn ">Button</button>
+      <button class="btn btn-danger navbar-btn ">Button</button>
+      <button class="btn btn-danger navbar-btn ">Button</button>
+      <button class="btn navbar-btn ">Download</button>
+    </div>
+    <span class="navbar navbar-right">
+      <button class="btn" (click)="save(myRenderedText)">ass</button>
+      <button class="btn btn-danger navbar-btn navbar-right" (click)="getCaretPos(myText)">Button</button>
+    </span>
+  </div>
+</nav>
+
 <div class="containers">
 
   <div class="container">
-    <textarea class="inputPane" [(ngModel)]="raw_text"></textarea>
+    <textarea class="inputPane" [(ngModel)]="rawText" #myText></textarea>
   </div>
 
   <div class="container">
-    <markdown class="pane" ngPreserveWhitespaces [data]="raw_text">dddd</markdown>
+    <markdown class="pane" ngPreserveWhitespaces [data]="rawText"></markdown>
   </div>
 
 </div>
