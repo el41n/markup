@@ -1,1 +1,2 @@
-from .user_view import UserListView, null_view, succes_email_confirm
+from .user_view import UserList, UserDetail
+from .file_view import FileList, FileDetail

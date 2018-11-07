@@ -6,6 +6,18 @@ from ..models import CustomUser
 from ..serializers import UserSerializer
 
 
+class UserList(generics.ListAPIView):
+
+    queryset = CustomUser.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDetail(generics.RetrieveAPIView):
+
+    queryset = CustomUser.objects.all()
+    serializer_class = UserSerializer
+
+
 class UserListView(generics.ListCreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
