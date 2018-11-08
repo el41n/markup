@@ -128,11 +128,11 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-#
-# AUTHENTICATION_BACKENDS = (
-#     'django.contrib.auth.backends.ModelBackend', # this is default
-#     'guardian.backends.ObjectPermissionBackend',
-# )
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend', # this is default
+    'guardian.backends.ObjectPermissionBackend',
+)
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
