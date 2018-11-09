@@ -3,6 +3,10 @@ import { DomSanitizer } from "@angular/platform-browser";
 
 import { MarkdownService } from "ngx-markdown";
 import {sanitizeUrl} from "@angular/core/src/sanitization/sanitization";
+import { FileService } from "../services/file.service";
+
+import { User } from "../models/user";
+import { File } from "../models/file";
 
 @Component({
   selector: 'app-text',
@@ -14,8 +18,13 @@ export class TextComponent implements OnInit {
   url: string;
   fileName: string = 'file';
   fullFileName: string;
+  user: User;
+  file: Array<File>;
+  workingFile: File;
+  selectedLevel;
 
-  createFile(text: string): void {
+
+  createFileDownload(text: string): void {
     let blob = new Blob([text], {type: 'text/plain'});
     this.url = window.URL.createObjectURL(blob);
     console.log('clicked');
@@ -24,12 +33,12 @@ export class TextComponent implements OnInit {
   saveHTML(): void {
     this.fullFileName = this.fileName + '.html';
     let text = this.markdownService.compile(this.rawText);
-    this.createFile(text);
+    this.createFileDownload(text);
   }
 
   saveMD(): void {
     this.fullFileName = this.fileName + '.md';
-    this.createFile(this.rawText);
+    this.createFileDownload(this.rawText);
   }
 
   sanitize(url: string) {
@@ -40,7 +49,7 @@ export class TextComponent implements OnInit {
       console.log(oField._data);
       console.log(this.markdownService.compile(this.rawText));
       let t = this.markdownService.compile(this.rawText);
-      this.createFile(t);
+      this.createFileDownload(t);
       alert('Pleas');
     }
 
@@ -51,14 +60,54 @@ export class TextComponent implements OnInit {
        console.log(caretPos);
        this.rawText = this.rawText.slice(0, caretPos) + "***" + this.rawText.slice(caretPos);
     }
+  }
 
+  createFile() {
+    this.workingFile = new File();
+    this.workingFile.title = 'Title';
+    this.workingFile.text = '';
+  }
 
+  loadFile() {
+    alert(this.selectedLevel.title);
+    this.fileService.loadFile(this.selectedLevel.id)
+      .subscribe((data) => this.workingFile = data);
+    this.updateFileList();
+  }
+
+  saveFile() {
+    if (this.workingFile.id) {
+      this.fileService.updateFile(this.workingFile)
+        .subscribe();
+    }
+    else {
+      this.fileService.createFile(this.workingFile).subscribe();
+    }
+    this.updateFileList();
+  }
+
+  deleteFile() {
+    if (this.workingFile.id) {
+      this.fileService.deleteFile(this.workingFile).subscribe();
+    }
+    this.createFile();
+    this.updateFileList();
   }
 
   constructor(private markdownService: MarkdownService,
-              private sanitizer: DomSanitizer) { }
+              private sanitizer: DomSanitizer,
+              private fileService: FileService) {}
 
   ngOnInit() {
+    this.createFile();
+    this.updateFileList();
   }
 
+  updateFileList() {
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      if (currentUser && currentUser.key) {
+        this.fileService.list()
+          .subscribe((data) => this.file=data);
+      }
+  }
 }

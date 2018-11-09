@@ -11,12 +11,12 @@ from guardian.shortcuts import assign_perm, get_objects_for_user
 from rest_framework.authentication import TokenAuthentication
 
 from ..models.files import File
-from ..serializers.file_serializer import FileSerializer
+from ..serializers import FileSerializer, FileMetaSerializer
 
 
 class FileList(APIView):
 
-    permission_classes = (permissions.IsAuthenticated,)
+    #permission_classes = (permissions.IsAuthenticated,)
 
     #@permission_required_or_403('r_file')
     def get(self, request):
@@ -28,8 +28,8 @@ class FileList(APIView):
         print(self.request.user.has_perm('rw_file'))
         print(self.request.user.has_perm('rm_file'))
 
-        files = File.objects.all()
-        serializer = FileSerializer(files, many=True)
+        files = File.objects.filter(author=user)
+        serializer = FileMetaSerializer(files, many=True)
         # shared_read_files = get_objects_for_user(user, 'r_file')
 
         return Response(serializer.data)

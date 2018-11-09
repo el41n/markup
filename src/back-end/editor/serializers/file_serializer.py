@@ -9,7 +9,7 @@ class FileSerializer(serializers.Serializer):
 
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField(required=True, max_length=128)
-    text = serializers.CharField()
+    text = serializers.CharField(allow_blank=True)
     author = serializers.ReadOnlyField(source='author.username')
 
     def create(self, validated_data):
@@ -20,3 +20,9 @@ class FileSerializer(serializers.Serializer):
         instance.text = validated_data.get('text', instance.text)
         instance.save()
         return instance
+
+
+class FileMetaSerializer(serializers.Serializer):
+
+    id = serializers.IntegerField(read_only=True)
+    title = title = serializers.CharField(required=True, max_length=128)

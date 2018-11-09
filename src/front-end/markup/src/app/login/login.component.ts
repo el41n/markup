@@ -64,14 +64,4 @@ export class LoginComponent implements OnInit {
                   this.loading = false;
               });
   }
-
-  data = '';
-
-  test() {
-    console.log('tre');
-    this.fileService.list("1", "2")
-      .subscribe((data) => console.log('ad'));
-
-  }
-
 }

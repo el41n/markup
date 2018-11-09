@@ -7,7 +7,7 @@ class File(models.Model):
 
     created = models.DateField(auto_now_add=True)
     title = models.CharField(max_length=128, blank=False)
-    text = models.TextField()
+    text = models.TextField(blank=True)
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='created_files')
 
     class Meta:
