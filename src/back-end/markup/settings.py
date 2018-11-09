@@ -49,10 +49,12 @@ INSTALLED_APPS = [
     'allauth.account',
     'rest_auth.registration',
     'guardian',
+    'corsheaders',
     'editor.apps.EditorConfig',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -130,9 +132,15 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend', # this is default
+    'django.contrib.auth.backends.ModelBackend',
     'guardian.backends.ObjectPermissionBackend',
 )
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
@@ -153,15 +161,21 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-)
-
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-# ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_AUTHENTICATION_METHOD = "username"
+ACCOUNT_LOGOUT_ON_GET = True
 # ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+ACCPUNT_SESSION_REMEMBER = False
+REST_SESSION_LOGIN = False
 
 #LOGIN_REDIRECT_URL = '/api/users'
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDETIALS = True
+CORS_ORIGIN_WHITELIST = (
+    'localhost:4001'
+)
+CORS_ORIGIN_REGEX_WHITELIST = (
+    'localhost:4001'
+)
