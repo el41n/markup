@@ -1,3 +1,4 @@
+from django.shortcuts import redirect
 from rest_framework import generics, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -46,5 +47,7 @@ def null_view(request):
 
 
 @api_view()
-def succes_email_confirm(request):
-    return Response('Email confirmed')
+def success_email_confirm(request, key):
+    print('try')
+    front_url = 'http://localhost:4001/login'
+    return redirect(front_url)

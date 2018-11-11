@@ -112,7 +112,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'mr.chelyabiev14@gmail.com'
 EMAIL_HOST_PASSWORD = 'Elchinka1401'
 
-SITE_ID = 1
+SITE_ID = 2
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

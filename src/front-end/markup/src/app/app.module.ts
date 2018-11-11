@@ -19,6 +19,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { AlertService } from "./services/alert.service";
 import { AlertComponent } from './alert/alert.component';
 import {ErrorInterceptor} from "./helpers/error.interceptor";
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import {ErrorInterceptor} from "./helpers/error.interceptor";
     LoginComponent,
     SettingsComponent,
     AlertComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
