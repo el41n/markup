@@ -11,7 +11,7 @@ urlpatterns = [
     # path('rest-auth/registration/account-email-verification-sent/', VerifyEmailView.as_view(), name='account_email_verification_sent'),
     # path('rest-auth/registration/account-confirm-email/(?P<key>[-/\w]+)/$', ConfirmEmailView.as_view(), name='account_confirm_email'),
     path('users/', UserList.as_view()),
-    path('users/<int:pk>', UserDetail.as_view()),
+    path('users/detail', UserDetail.as_view()),
     path('files/', FileList.as_view()),
     path('files/<int:pk>', FileDetail.as_view()),
 ]

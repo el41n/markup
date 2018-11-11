@@ -4,6 +4,7 @@ import { DomSanitizer } from "@angular/platform-browser";
 import { MarkdownService } from "ngx-markdown";
 import {sanitizeUrl} from "@angular/core/src/sanitization/sanitization";
 import { FileService } from "../services/file.service";
+import { UserService } from "../services/user.service";
 
 import { User } from "../models/user";
 import { File } from "../models/file";
@@ -18,7 +19,7 @@ export class TextComponent implements OnInit {
   url: string;
   fileName: string = 'file';
   fullFileName: string;
-  user: User;
+  user: User = null;
   file: Array<File>;
   workingFile: File;
   selectedLevel;
@@ -72,7 +73,7 @@ export class TextComponent implements OnInit {
     alert(this.selectedLevel.title);
     this.fileService.loadFile(this.selectedLevel.id)
       .subscribe((data) => this.workingFile = data);
-    this.updateFileList();
+    this.update();
   }
 
   saveFile() {
@@ -83,7 +84,7 @@ export class TextComponent implements OnInit {
     else {
       this.fileService.createFile(this.workingFile).subscribe();
     }
-    this.updateFileList();
+    this.update();
   }
 
   deleteFile() {
@@ -91,23 +92,30 @@ export class TextComponent implements OnInit {
       this.fileService.deleteFile(this.workingFile).subscribe();
     }
     this.createFile();
-    this.updateFileList();
+    this.update();
+  }
+
+  loadUser(): void {
+    this.userService.loadUser()
+      .subscribe((data) => this.user=data);
   }
 
   constructor(private markdownService: MarkdownService,
               private sanitizer: DomSanitizer,
-              private fileService: FileService) {}
+              private fileService: FileService,
+              private userService: UserService) {}
 
   ngOnInit() {
     this.createFile();
-    this.updateFileList();
+    this.update();
   }
 
-  updateFileList() {
+  update() {
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
       if (currentUser && currentUser.key) {
         this.fileService.list()
           .subscribe((data) => this.file=data);
+        this.loadUser();
       }
   }
 }

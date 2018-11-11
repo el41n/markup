@@ -4,8 +4,7 @@ from ..models import CustomUser, File, SharedFile
 
 class UserSerializer(serializers.ModelSerializer):
 
-    created_files = serializers.PrimaryKeyRelatedField(many=True, queryset=File.objects.all())
-    shared_files = serializers.PrimaryKeyRelatedField(many=True, queryset=SharedFile.objects.all())
+    avatar = serializers.ImageField(use_url=True, allow_null=True)
 
     class Meta:
 
@@ -14,6 +13,12 @@ class UserSerializer(serializers.ModelSerializer):
                   'last_name',
                   'email',
                   'username',
-                  'avatar',
-                  'created_files',
-                  'shared_files')
+                  'avatar')
+
+
+    def update(self, instance, validated_data):
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.avatar = validated_data.get('avatar', instance.avatar)
+        instance.save()
+        return instance

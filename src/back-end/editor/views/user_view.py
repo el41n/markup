@@ -1,6 +1,7 @@
 from rest_framework import generics, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from ..models import CustomUser
 from ..serializers import UserSerializer
@@ -12,11 +13,26 @@ class UserList(generics.ListAPIView):
     serializer_class = UserSerializer
 
 
-class UserDetail(generics.ListAPIView,
-                  generics.UpdateAPIView):
+class UserDetail(APIView):
 
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
+
+    def get(self, request):
+        user = self.request.user
+        serializer = UserSerializer(user)
+        obj = CustomUser.objects.filter(pk=user.id)
+        return Response(serializer.data)
+
+    def put(self, request):
+        user = CustomUser.objects.filter(pk=self.request.user.id)
+        #user = self.request.user
+        #a = se.is_valid()
+        serializer = UserSerializer(user[0], data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserListView(generics.ListCreateAPIView):

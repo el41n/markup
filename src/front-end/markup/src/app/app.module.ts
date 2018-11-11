@@ -14,12 +14,15 @@ import { LoginComponent } from './login/login.component';
 import { AuthenticationService} from "./services/authentication.service";
 import { FileService } from "./services/file.service";
 import { JwtInterceptor } from "./helpers/jwt.interceptor";
+import { UserService } from "./services/user.service";
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TextComponent,
     LoginComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,6 +36,7 @@ import { JwtInterceptor } from "./helpers/jwt.interceptor";
   providers: [
     AuthenticationService,
     FileService,
+    UserService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]

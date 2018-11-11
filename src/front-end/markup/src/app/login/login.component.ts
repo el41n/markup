@@ -23,7 +23,6 @@ export class LoginComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private authenticationService: AuthenticationService,
-        private fileService: FileService,
         // private alertService: AlertService
   ) {}
 

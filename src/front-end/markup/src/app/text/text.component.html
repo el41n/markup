@@ -1,5 +1,5 @@
  <nav class="navbar navbar-light navbar-fixed-top">
-  <div class="container-fluid">
+  <div class="container-fluid navbar-header">
     <div class="navbar-header">
       <a class="navbar-brand" routerLink="MarkUp">MarkUp</a>
     </div>
@@ -25,13 +25,18 @@
       <button class="btn btn-danger navbar-btn ">Button</button>
       <button class="btn navbar-btn ">Download</button>
     </div>
-    <span class="navbar navbar-right">
-      <button class="btn" routerLink="login">Login</button>
-      <button class="btn btn-danger navbar-btn navbar-right" (click)="getCaretPos(myText)">Register</button>
-    </span>
+    <div class="navbar navbar-right" *ngIf="user != null">
+      <a>Hello, {{ user.username }}</a>
+      <a class="btn" [routerLink]="['/login']">Logout</a>
+      <a class="btn btn-info navbar-btn navbar-right" (click)="getCaretPos(myText)">Settings</a>
+    </div>
+    <div class="navbar navbar-right" *ngIf="user == null">
+      <a class="btn" [routerLink]="['/login']">Login</a>
+      <a class="btn btn-danger navbar-btn navbar-right" (click)="getCaretPos(myText)">Register</a>
+    </div>
   </div>
 </nav>
-
+<image [href]="user"></image>
 <div class="containers">
 
   <div class="container">

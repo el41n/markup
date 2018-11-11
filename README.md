@@ -26,7 +26,7 @@ npm install -g @angular/cli
 Copy github repository. Then install all dependencies with pip3.
 
 ```
-pip3 install -r requirements.txt
+pip3 install -r requirements.txtr
 ```
 
 ### Coding style tests
