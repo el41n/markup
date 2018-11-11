@@ -16,6 +16,9 @@ import { FileService } from "./services/file.service";
 import { JwtInterceptor } from "./helpers/jwt.interceptor";
 import { UserService } from "./services/user.service";
 import { SettingsComponent } from './settings/settings.component';
+import { AlertService } from "./services/alert.service";
+import { AlertComponent } from './alert/alert.component';
+import {ErrorInterceptor} from "./helpers/error.interceptor";
 
 @NgModule({
   declarations: [
@@ -23,6 +26,7 @@ import { SettingsComponent } from './settings/settings.component';
     TextComponent,
     LoginComponent,
     SettingsComponent,
+    AlertComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,7 +41,9 @@ import { SettingsComponent } from './settings/settings.component';
     AuthenticationService,
     FileService,
     UserService,
+    AlertService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

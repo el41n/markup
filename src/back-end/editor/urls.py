@@ -1,4 +1,6 @@
 from django.urls import include, path, re_path
+from django.conf.urls.static import static
+from django.conf import settings
 from allauth.account.views import ConfirmEmailView
 from rest_auth.registration.views import VerifyEmailView, RegisterView, ConfirmEmailView
 from .views import UserList, UserDetail, FileList, FileDetail
@@ -15,3 +17,5 @@ urlpatterns = [
     path('files/', FileList.as_view()),
     path('files/<int:pk>', FileDetail.as_view()),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { first } from "rxjs/operators"
 
 import { AuthenticationService } from "../services/authentication.service";
+import {AlertService} from "../services/alert.service";
 import { FileService } from "../services/file.service";
 import {Config} from "protractor";
 
@@ -23,7 +24,7 @@ export class LoginComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private authenticationService: AuthenticationService,
-        // private alertService: AlertService
+        private alertService: AlertService
   ) {}
 
   ngOnInit() {
@@ -59,7 +60,7 @@ export class LoginComponent implements OnInit {
                   console.log("asda");
               },
               error => {
-                  // this.alertService.error(error);
+                  this.alertService.error(error);
                   this.loading = false;
               });
   }
