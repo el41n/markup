@@ -20,6 +20,7 @@ import { AlertService } from "./services/alert.service";
 import { AlertComponent } from './alert/alert.component';
 import {ErrorInterceptor} from "./helpers/error.interceptor";
 import { RegisterComponent } from './register/register.component';
+import { SharingComponent } from './sharing/sharing.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { RegisterComponent } from './register/register.component';
     SettingsComponent,
     AlertComponent,
     RegisterComponent,
+    SharingComponent,
   ],
   imports: [
     BrowserModule,

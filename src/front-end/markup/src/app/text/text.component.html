@@ -10,29 +10,27 @@
     </div>
     <div>
       <button class="btn navbar-btn" (click)="createFile()">New File</button>
-      <button class="btn navbar-btn" (click)="saveFile()">Save File</button>
-      <button class="btn navbar-btn" (click)="deleteFile()">Delete File</button>
+      <button *ngIf="user != null" class="btn navbar-btn" (click)="saveFile()">Save File</button>
+      <button *ngIf="user != null" class="btn navbar-btn" (click)="deleteFile()">Delete File</button>
     </div>
-    <div>
+    <div *ngIf="user != null">
       <select [(ngModel)]="selectedLevel" (change)="loadFile()">
       <option *ngFor="let item of file" [ngValue]="item">{{item.title}}</option>
     </select>
     </div>
     <div class="navbar-left btn-group">
-      <button class="btn btn-danger navbar-btn ">Button</button>
-      <button class="btn btn-danger navbar-btn ">Button</button>
-      <button class="btn btn-danger navbar-btn ">Button</button>
-      <button class="btn btn-danger navbar-btn ">Button</button>
-      <button class="btn navbar-btn ">Download</button>
+      <button class="btn btn-light navbar-btn" (click)="makeBold(myText)">Bold</button>
+      <button class="btn btn-light navbar-btn" (click)="makeItalic(myText)">Italic</button>
+      <button class="btn btn-light navbar-btn" (click)="makeHeader(myText)">Header</button>
     </div>
     <div class="navbar navbar-right" *ngIf="user != null">
       <a>Hello, {{ user.username }}</a>
       <a class="btn" [routerLink]="['/login']">Logout</a>
-      <a class="btn btn-info navbar-btn navbar-right" (click)="getCaretPos(myText)">Settings</a>
+      <a class="btn btn-info navbar-btn navbar-right" (click)="addSymbols(myText)">Settings</a>
     </div>
     <div class="navbar navbar-right" *ngIf="user == null">
       <a class="btn" [routerLink]="['/login']">Login</a>
-      <a class="btn btn-danger navbar-btn navbar-right" (click)="getCaretPos(myText)">Register</a>
+      <a class="btn btn-light navbar-btn navbar-right" [routerLink]="['/signin']">Register</a>
     </div>
   </div>
 </nav>

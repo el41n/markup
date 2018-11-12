@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from "@angular/platform-browser";
 
 import { MarkdownService } from "ngx-markdown";
-import {sanitizeUrl} from "@angular/core/src/sanitization/sanitization";
 import { FileService } from "../services/file.service";
 import { UserService } from "../services/user.service";
 
@@ -28,39 +27,46 @@ export class TextComponent implements OnInit {
   createFileDownload(text: string): void {
     let blob = new Blob([text], {type: 'text/plain'});
     this.url = window.URL.createObjectURL(blob);
-    console.log('clicked');
   }
 
   saveHTML(): void {
-    this.fullFileName = this.fileName + '.html';
-    let text = this.markdownService.compile(this.rawText);
+    this.fullFileName = this.workingFile.title + '.html';
+    let text = this.markdownService.compile(this.workingFile.text);
     this.createFileDownload(text);
   }
 
   saveMD(): void {
-    this.fullFileName = this.fileName + '.md';
-    this.createFileDownload(this.rawText);
+    this.fullFileName = this.workingFile.title + '.md';
+    this.createFileDownload(this.workingFile.text);
   }
 
   sanitize(url: string) {
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
-    save(oField) {
-      console.log(oField._data);
-      console.log(this.markdownService.compile(this.rawText));
-      let t = this.markdownService.compile(this.rawText);
-      this.createFileDownload(t);
-      alert('Pleas');
-    }
+  save(oField) {
+    let t = this.markdownService.compile(this.workingFile.text);
+    this.createFileDownload(t);
+  }
 
-   getCaretPos(oField): void {
+   addSymbols(oField, symbols: string): void {
     if (oField.selectionStart || oField.selectionStart == '0') {
        let caretPos = oField.selectionStart;
-       console.log("Tried");
-       console.log(caretPos);
-       this.rawText = this.rawText.slice(0, caretPos) + "***" + this.rawText.slice(caretPos);
+       this.workingFile.text = this.workingFile.text.slice(0, caretPos) + symbols
+         + this.workingFile.text.slice(caretPos);
     }
+  }
+
+  makeBold(oField): void {
+    this.addSymbols(oField, "* *");
+  }
+
+  makeItalic(oField): void {
+    this.addSymbols(oField, "** **");
+  }
+
+  makeHeader(oField): void {
+    this.addSymbols(oField, "###");
   }
 
   createFile() {
