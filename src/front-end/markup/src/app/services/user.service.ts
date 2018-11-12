@@ -18,6 +18,10 @@ export class UserService {
     return this.http.get<User>('http://localhost:8000/api/users/detail');
   }
 
+  register(user: User) {
+    return this.http.post(`http://localhost:8000/api/auth/registration`, user);
+  }
+
   // createFile(file: File) {
   //   console.log('save file');
   //   return this.http.post('http://localhost:8000/api/files/', file);
