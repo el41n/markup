@@ -1,4 +1,5 @@
 from django.shortcuts import redirect
+from django.http.response import Http404
 from rest_framework import generics, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -18,6 +19,12 @@ class UserDetail(APIView):
 
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
+
+    def get_object(self, pk):
+        try:
+            return CustomUser.objects.get(pk=pk)
+        except CustomUser.DoesNotExist:
+            raise Http404
 
     def get(self, request):
         user = self.request.user

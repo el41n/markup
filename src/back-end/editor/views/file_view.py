@@ -10,7 +10,7 @@ from guardian.decorators import permission_required_or_403
 from guardian.shortcuts import assign_perm, get_objects_for_user
 from rest_framework.authentication import TokenAuthentication
 
-from ..models.files import File
+from ..models import File, CustomUser
 from ..serializers import FileSerializer, FileMetaSerializer
 
 
@@ -48,7 +48,8 @@ class FileList(APIView):
 
 class FileDetail(APIView):
 
-    def get_object(self, pk):
+    @staticmethod
+    def get_object(pk):
         try:
             return File.objects.get(pk=pk)
         except File.DoesNotExist:
@@ -68,6 +69,16 @@ class FileDetail(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, pk):
+        file = self.get_object(pk)
+        perm = request.data['permission']
+        grant_user = CustomUser.objects.get(pk=request.data['grant_user'])
+        print(grant_user.has_perm('r_file', file))
+        print(grant_user.has_perm('rw_file', file))
+        print(grant_user.has_perm('rm_file', file))
+        assign_perm(perm, grant_user, file)
+        return Response()
 
     def delete(self, request, pk):
         file = self.get_object(pk)

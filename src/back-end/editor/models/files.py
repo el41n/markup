@@ -2,6 +2,11 @@ from django.db import models
 
 from .custom_user import CustomUser
 
+FILE_PERMISSIONS = (
+    ('r_file', 'Read existing file'),
+    ('rw_file', 'Read and save file'),
+    ('rm_file', 'Delete file'),
+)
 
 class File(models.Model):
 
@@ -12,11 +17,11 @@ class File(models.Model):
 
     class Meta:
         ordering = ('created', )
-        permissions = (
-            ('r_file', 'Read existing file'),
-            ('rw_file', 'Read and save file'),
-            ('rm_file', 'Delete file')
-        )
+        permissions = FILE_PERMISSIONS
+
+    @staticmethod
+    def grant_permission(file_pk, user_pk, permission):
+        pass
 
     def __str__(self):
         return self.title

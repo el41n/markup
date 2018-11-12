@@ -1,2 +1,3 @@
 from .user_serializer import UserSerializer
 from .file_serializer import FileSerializer, FileMetaSerializer
+from .permission_serializer import PermissionSerializer
