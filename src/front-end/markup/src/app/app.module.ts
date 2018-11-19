@@ -21,6 +21,7 @@ import { AlertComponent } from './alert/alert.component';
 import {ErrorInterceptor} from "./helpers/error.interceptor";
 import { RegisterComponent } from './register/register.component';
 import { SharingComponent } from './sharing/sharing.component';
+import { ResetComponent } from './reset/reset.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { SharingComponent } from './sharing/sharing.component';
     AlertComponent,
     RegisterComponent,
     SharingComponent,
+    ResetComponent,
   ],
   imports: [
     BrowserModule,

@@ -34,8 +34,6 @@ class UserDetail(APIView):
 
     def put(self, request):
         user = CustomUser.objects.filter(pk=self.request.user.id)
-        #user = self.request.user
-        #a = se.is_valid()
         serializer = UserSerializer(user[0], data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -55,6 +53,5 @@ def null_view(request):
 
 @api_view()
 def success_email_confirm(request, key):
-    print('try')
     front_url = 'http://localhost:4001/login'
     return redirect(front_url)

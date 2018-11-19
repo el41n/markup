@@ -10,27 +10,21 @@ from guardian.decorators import permission_required_or_403
 from guardian.shortcuts import assign_perm, get_objects_for_user
 from rest_framework.authentication import TokenAuthentication
 
-from ..models import File, CustomUser
+from ..models import File, CustomUser, FILE_PERMISSIONS
 from ..serializers import FileSerializer, FileMetaSerializer
 
+from functools import reduce
 
 class FileList(APIView):
 
-    #permission_classes = (permissions.IsAuthenticated,)
-
-    #@permission_required_or_403('r_file')
     def get(self, request):
         user = self.request.user
         if self.request.user.has_perm('r_file'):
             print("Has perm")
-
-        print(self.request.user.has_perm('r_file'))
-        print(self.request.user.has_perm('rw_file'))
-        print(self.request.user.has_perm('rm_file'))
-
         files = File.objects.filter(author=user)
+        perm = reduce(lambda acc, x: acc + ' ' + str(x[0]), FILE_PERMISSIONS, '')
+        sh_files = get_objects_for_user(user, perms=['rm_file', 'r_file'], klass=File, any_perm=True)
         serializer = FileMetaSerializer(files, many=True)
-        # shared_read_files = get_objects_for_user(user, 'r_file')
 
         return Response(serializer.data)
 
@@ -42,6 +36,7 @@ class FileList(APIView):
             obj = File.objects.get(pk=serializer.data.get('id'))
             assign_perm('rm_file', author, obj)
             assign_perm('rw_file', author, obj)
+            c = get_objects_for_user(author, 'rm_file', File)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -57,8 +52,6 @@ class FileDetail(APIView):
 
     def get(self, request, pk):
         file = self.get_object(pk)
-        if self.request.user.has_perm('r_file', file):
-            print('pass')
         serializer = FileSerializer(file)
         return Response(serializer.data)
 
@@ -74,9 +67,6 @@ class FileDetail(APIView):
         file = self.get_object(pk)
         perm = request.data['permission']
         grant_user = CustomUser.objects.get(pk=request.data['grant_user'])
-        print(grant_user.has_perm('r_file', file))
-        print(grant_user.has_perm('rw_file', file))
-        print(grant_user.has_perm('rm_file', file))
         assign_perm(perm, grant_user, file)
         return Response()
 

@@ -14,9 +14,7 @@ import { File } from "../models/file";
   styleUrls: ['./text.component.css']
 })
 export class TextComponent implements OnInit {
-  rawText: string = 'avc';
   url: string;
-  fileName: string = 'file';
   fullFileName: string;
   user: User = null;
   file: Array<File>;
@@ -58,11 +56,11 @@ export class TextComponent implements OnInit {
   }
 
   makeBold(oField): void {
-    this.addSymbols(oField, "* *");
+    this.addSymbols(oField, "** **");
   }
 
   makeItalic(oField): void {
-    this.addSymbols(oField, "** **");
+    this.addSymbols(oField, "* *");
   }
 
   makeHeader(oField): void {
