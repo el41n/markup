@@ -10,11 +10,11 @@ export class SharingService {
   }
 
   addPermission(permission: Permission) {
-    this.http.patch('http://localhost:8000/api/files/', permission);
+    this.http.patch('http://localhost:8000/api/file/', permission);
   }
 
   deletePermission(permission: Permission) {
-    this.http.delete('http://localhost:8000/api/files/');
+    this.http.delete('http://localhost:8000/api/file/');
   }
 }
 

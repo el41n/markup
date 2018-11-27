@@ -74,7 +74,6 @@ export class TextComponent implements OnInit {
   }
 
   loadFile() {
-    alert(this.selectedLevel.title);
     this.fileService.loadFile(this.selectedLevel.id)
       .subscribe((data) => this.workingFile = data);
     this.update();
@@ -83,20 +82,20 @@ export class TextComponent implements OnInit {
   saveFile() {
     if (this.workingFile.id) {
       this.fileService.updateFile(this.workingFile)
-        .subscribe();
+        .subscribe((next) => {}, error1 => {}, () => this.update() );
     }
     else {
-      this.fileService.createFile(this.workingFile).subscribe();
+      this.fileService.createFile(this.workingFile)
+        .subscribe((next) => {}, (error) => {}, () => this.update());
     }
-    this.update();
   }
 
   deleteFile() {
     if (this.workingFile.id) {
-      this.fileService.deleteFile(this.workingFile).subscribe();
+      this.fileService.deleteFile(this.workingFile)
+        .subscribe((next) => {}, (error) => {}, () => this.update());
     }
     this.createFile();
-    this.update();
   }
 
   loadUser(): void {
@@ -114,7 +113,8 @@ export class TextComponent implements OnInit {
     this.update();
   }
 
-  update() {
+  update(): void {
+    console.log('updated');
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
       if (currentUser && currentUser.key) {
         this.fileService.list()

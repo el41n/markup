@@ -27,8 +27,9 @@
       <div *ngIf="user.avatar != null">
         <img src="http://localhost:8000/api{{ user.avatar }}" height="60" width="60" hspace="30">
       </div>
-      <a>Hello, {{ user.username }}</a>
-      <a class="btn" [routerLink]="['/login']">Logout</a>
+      <a class="nav">Hello, {{ user.username }}</a>
+      <a class="btn btn-light navbar-btn navbar-right" [routerLink]="['/settings']">Settings</a>
+      <a class="btn btn-danger" [routerLink]="['/login']">Logout</a>
     </div>
     <div class="navbar navbar-right" *ngIf="user == null">
       <a class="btn" [routerLink]="['/login']">Login</a>

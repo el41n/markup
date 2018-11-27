@@ -1,4 +1,5 @@
 from rest_framework import serializers
+
 from ..models import CustomUser, File, SharedFile
 
 
@@ -13,8 +14,8 @@ class UserSerializer(serializers.ModelSerializer):
                   'last_name',
                   'email',
                   'username',
-                  'avatar')
-
+                  'avatar',
+                  'pk')
 
     def update(self, instance, validated_data):
         instance.first_name = validated_data.get('first_name', instance.first_name)

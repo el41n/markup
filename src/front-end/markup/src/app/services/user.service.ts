@@ -15,4 +15,12 @@ export class UserService {
   register(user: User) {
     return this.http.post(`http://localhost:8000/api/auth/registration/`, user);
   }
+
+  changeSettings(user: User) {
+    return this.http.put(`http://localhost:8000/api/users/detail/`, user);
+  }
+
+  changeAvatar(file: FormData) {
+    return this.http.put(`http://localhost:8000/api/users/detail/`, file);
+  }
 }

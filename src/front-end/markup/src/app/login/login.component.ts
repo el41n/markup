@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
 
       // get return url from route parameters or default to '/'
       this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+      // this.returnUrl = '/';
   }
 
   // convenience getter for easy access to form fields
@@ -57,7 +58,6 @@ export class LoginComponent implements OnInit {
           .subscribe(
               data => {
                   this.router.navigate([this.returnUrl]);
-                  console.log("asda");
               },
               error => {
                   this.alertService.error(error);

@@ -10,8 +10,8 @@ urlpatterns = [
 
     path('users/', UserList.as_view()),
     path('users/detail/', UserDetail.as_view()),
-    path('files/', FileList.as_view()),
-    path('files/<int:pk>', FileDetail.as_view()),
+    path('file/', FileList.as_view()),
+    path('file/<int:pk>', FileDetail.as_view()),
     path('permissions/', PermissionView.as_view()),
 ]
 

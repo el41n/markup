@@ -4,26 +4,26 @@
             <div class="col-sm-6 offset-sm-3">
 
               <h2>Settings</h2>
-              <form (ngSubmit)="onSubmit()">
+              <form [formGroup]="nameForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
-                    <label for="firstname">First Name</label>
-                    <input type="text" id="firstname" class="form-control">
+                    <label for="firstName">First Name</label>
+                    <input type="text" formControlName="firstName" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="secondname">Second Name </label>
-                    <input type="text" id="secondname" class="form-control">
+                    <label for="lastName">Second Name </label>
+                    <input type="text" formControlName="lastName" class="form-control">
                 </div>
                 <div class="form-group">
                     <button class="btn btn-primary">Save</button>
                 </div>
               </form>
 
-              <form>
+              <form (ngSubmit)="onSubmitAvatar()">
                 <div>
-                  <input type="file">
+                  <input type="file" formControlName="avatar" class="avatar" (change)="onFileChanged($event)">
                 </div>
                 <br>
-                 <div class="form-group">
+                 <div>
                     <button class="btn btn-primary">Save</button>
                 </div>
               </form>
