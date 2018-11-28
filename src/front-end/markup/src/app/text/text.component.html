@@ -1,11 +1,13 @@
- <nav class="navbar navbar-light navbar-fixed-top">
+<nav class="navbar navbar-light navbar-fixed-top">
   <div class="container-fluid navbar-header">
     <div class="navbar-header">
       <a class="navbar-brand" routerLink="MarkUp">MarkUp</a>
     </div>
     <div>
-      <a class="btn" target="_blank" download="{{ fullFileName }}" [href]="sanitize(url)" (click)="saveMD()">Download MD</a>
-      <a class="btn" target="_blank" download="{{ fullFileName }}" [href]="sanitize(url)" (click)="saveHTML()">Download HTML</a>
+      <a class="btn" target="_blank" download="{{ fullFileName }}" [href]="sanitize(url)" (click)="saveMD()">Download
+        MD</a>
+      <a class="btn" target="_blank" download="{{ fullFileName }}" [href]="sanitize(url)" (click)="saveHTML()">Download
+        HTML</a>
       <input [(ngModel)]="workingFile.title">
     </div>
     <div>
@@ -15,8 +17,8 @@
     </div>
     <div *ngIf="user != null">
       <select [(ngModel)]="selectedLevel" (change)="loadFile()">
-      <option *ngFor="let item of file" [ngValue]="item">{{item.title}}</option>
-    </select>
+        <option *ngFor="let item of file" [ngValue]="item">{{ item.title }}</option>
+      </select>
     </div>
     <div class="navbar-left btn-group">
       <button class="btn btn-light navbar-btn" (click)="makeBold(myText)">Bold</button>

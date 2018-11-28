@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { DomSanitizer } from "@angular/platform-browser";
+import {Component, OnInit} from '@angular/core';
+import {DomSanitizer} from "@angular/platform-browser";
 
-import { MarkdownService } from "ngx-markdown";
-import { FileService } from "../services/file.service";
-import { UserService } from "../services/user.service";
+import {MarkdownService} from "ngx-markdown";
+import {FileService} from "../services/file.service";
+import {UserService} from "../services/user.service";
+import {AlertService} from "../services/alert.service";
 
-import { User } from "../models/user";
-import { File } from "../models/file";
+import {User} from "../models/user";
+import {File} from "../models/file";
 
 @Component({
   selector: 'app-text',
@@ -47,11 +48,11 @@ export class TextComponent implements OnInit {
     this.createFileDownload(t);
   }
 
-   addSymbols(oField, symbols: string): void {
+  addSymbols(oField, symbols: string): void {
     if (oField.selectionStart || oField.selectionStart == '0') {
-       let caretPos = oField.selectionStart;
-       this.workingFile.text = this.workingFile.text.slice(0, caretPos) + symbols
-         + this.workingFile.text.slice(caretPos);
+      let caretPos = oField.selectionStart;
+      this.workingFile.text = this.workingFile.text.slice(0, caretPos) + symbols
+        + this.workingFile.text.slice(caretPos);
     }
   }
 
@@ -74,39 +75,55 @@ export class TextComponent implements OnInit {
   }
 
   loadFile() {
-    this.fileService.loadFile(this.selectedLevel.id)
-      .subscribe((data) => this.workingFile = data);
+    this.fileService.loadFile(this.selectedLevel.pk)
+      .subscribe(
+        (data) => this.workingFile = data);
     this.update();
+    this.alertService.success('File was loaded');
   }
 
   saveFile() {
-    if (this.workingFile.id) {
+    if (this.workingFile.pk) {
       this.fileService.updateFile(this.workingFile)
-        .subscribe((next) => {}, error1 => {}, () => this.update() );
+        .subscribe((next) => {
+        }, error1 => {
+        }, () =>
+          this.update());
+      this.alertService.success('Updated');
     }
     else {
       this.fileService.createFile(this.workingFile)
-        .subscribe((next) => {}, (error) => {}, () => this.update());
+        .subscribe((next) => {
+        }, (error) => {
+        }, () =>
+          this.update());
+          this.alertService.success('Created');
     }
   }
 
   deleteFile() {
-    if (this.workingFile.id) {
+    if (this.workingFile.pk) {
       this.fileService.deleteFile(this.workingFile)
-        .subscribe((next) => {}, (error) => {}, () => this.update());
+        .subscribe((next) => {
+        }, (error) => {
+        }, () =>
+          this.update());
+          this.alertService.success('Deleted');
     }
     this.createFile();
   }
 
   loadUser(): void {
     this.userService.loadUser()
-      .subscribe((data) => this.user=data);
+      .subscribe((data) => this.user = data);
   }
 
   constructor(private markdownService: MarkdownService,
               private sanitizer: DomSanitizer,
               private fileService: FileService,
-              private userService: UserService) {}
+              private userService: UserService,
+              private alertService: AlertService) {
+  }
 
   ngOnInit() {
     this.createFile();
@@ -114,12 +131,11 @@ export class TextComponent implements OnInit {
   }
 
   update(): void {
-    console.log('updated');
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-      if (currentUser && currentUser.key) {
-        this.fileService.list()
-          .subscribe((data) => this.file=data);
-        this.loadUser();
-      }
+    if (currentUser && currentUser.key) {
+      this.fileService.list()
+        .subscribe((data) => this.file = data);
+      this.loadUser();
+    }
   }
 }
