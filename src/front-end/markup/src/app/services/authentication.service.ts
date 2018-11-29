@@ -1,27 +1,34 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class AuthenticationService {
-    constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
-    login(username: string, password: string) {
-        return this.http.post<any>(`http://127.0.0.1:8000/api/auth/login/`, { username: username, password: password })
-            .pipe(map(user => {
-                // login successful if there's a jwt token in the response
-                if (user && user.key) {
-                    console.log('ok');
-                    // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify(user));
-                }
+  login(username: string, password: string) {
+    return this.http.post<any>(`http://127.0.0.1:8000/api/auth/login/`, {username: username, password: password})
+      .pipe(map(user => {
+        if (user && user.key) {
+          localStorage.setItem('currentUser', JSON.stringify(user));
+        }
+        return user;
+      }));
+  }
 
-                return user;
-            }));
-    }
+  logout() {
+    localStorage.removeItem('currentUser');
+  }
 
-    logout() {
-        // remove user from local storage to log user out
-        localStorage.removeItem('currentUser');
-    }
+  resetPassword(email: string) {
+    return this.http.post(`http://127.0.0.1:8000/api/auth/password/reset/`, {email: email});
+  }
+
+  changePassword(password1, password2) {
+    return this.http.post(`http://127.0.0.1:8000/api/auth/password/change/`, {
+      new_password1: password1,
+      new_password2: password2
+    });
+  }
 }

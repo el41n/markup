@@ -1,34 +1,97 @@
 <div class="jumbotron">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-6 offset-sm-3">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6 offset-sm-3">
 
-              <h2>Settings</h2>
-              <form [formGroup]="nameForm" (ngSubmit)="onSubmit()">
-                <div class="form-group">
-                    <label for="firstName">First Name</label>
-                    <input type="text" formControlName="firstName" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="lastName">Second Name </label>
-                    <input type="text" formControlName="lastName" class="form-control">
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-primary">Save</button>
-                </div>
-              </form>
-
-              <form (ngSubmit)="onSubmitAvatar()">
-                <div>
-                  <input type="file" formControlName="avatar" class="avatar" (change)="onFileChanged($event)">
-                </div>
-                <br>
-                 <div>
-                    <button class="btn btn-primary">Save</button>
-                </div>
-              </form>
-
+        <h2>Settings</h2>
+        <form [formGroup]="nameForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" formControlName="firstName" class="form-control"
+                   [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }">
+            <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+              <div *ngIf="f.firstName.errors.required">Name is required</div>
             </div>
+          </div>
+          <div class="form-group">
+            <label for="lastName">Second Name </label>
+            <input type="text" formControlName="lastName" class="form-control"
+                   [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }">
+            <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+              <div *ngIf="f.lastName.errors.required">Name is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary">Save</button>
+          </div>
+        </form>
+
+        <hr>
+
+        <form (ngSubmit)="onSubmitAvatar()">
+          <label for="avatar">Avatar</label>
+          <div>
+            <input type="file" formControlName="avatar" class="avatar" (change)="onFileChanged($event)">
+          </div>
+          <br>
+          <div>
+            <button class="btn btn-primary">Save</button>
+          </div>
+        </form>
+
+        <hr>
+
+        <h3>Sharing</h3>
+        <div>
+          <label>Choose user for sharing</label><br>
+          <select [(ngModel)]="selectedUser">
+            <option *ngFor="let item of userList" [ngValue]="item">{{ item.username }}</option>
+          </select>
         </div>
+        <div>
+          <label>Choose file for sharing</label><br>
+          <select [(ngModel)]="selectedFile">
+            <option *ngFor="let item of fileList" [ngValue]="item">{{ item.title }}</option>
+          </select>
+        </div>
+        <div>
+          <label>Choose option for sharing</label><br>
+          <select [(ngModel)]="selectedPerm">
+            <option *ngFor="let item of permList" [ngValue]="item">{{ item.title }}</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" (click)="addPerm()">Add permission</button>
+        <button class="btn btn-primary btn-danger" (click)="deletePerm()">Delete permission</button>
+
+        <hr>
+
+        <h3>Password changing</h3>
+        <form [formGroup]="passwordForm" (ngSubmit)="onSubmitPassword()">
+          <div class="form-group">
+            <label for="password1">New password</label>
+            <input type="password" formControlName="password1" class="form-control"
+                   [ngClass]="{ 'is-invalid': submitted2 && f2.password1.errors }">
+            <div *ngIf="submitted2 && f2.password1.errors" class="invalid-feedback">
+              <div *ngIf="f2.password1.errors.required">Password is required</div>
+              <div *ngIf="f2.password1.errors.minLength">Password too short</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="password2">Repeat new password</label>
+            <input type="password" formControlName="password2" class="form-control"
+                   [ngClass]="{ 'is-invalid': submitted2 && f2.password2.errors }">
+            <div *ngIf="submitted2 && f2.password2.errors" class="invalid-feedback">
+              <div *ngIf="f2.password2.errors.required">Password is required</div>
+              <div *ngIf="f2.password2.errors.minLength">Password too short</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary">Save</button>
+          </div>
+        </form>
+
+
+      </div>
     </div>
+  </div>
 </div>

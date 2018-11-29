@@ -23,4 +23,8 @@ export class UserService {
   changeAvatar(file: FormData) {
     return this.http.put(`http://localhost:8000/api/users/detail/`, file);
   }
+
+  loadUserList() {
+    return this.http.get<User[]>('http://localhost:8000/api/users/');
+  }
 }

@@ -112,7 +112,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'mr.chelyabiev14@gmail.com'
 EMAIL_HOST_PASSWORD = 'Elchinka1401'
 
-SITE_ID = 2
+SITE_ID = 3
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -165,7 +165,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 ACCOUNT_EMAIL_REQUIRED = True
-#ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_AUTHENTICATION_METHOD = "username"
 ACCOUNT_LOGOUT_ON_GET = True
 

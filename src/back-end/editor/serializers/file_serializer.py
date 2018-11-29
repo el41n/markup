@@ -7,7 +7,7 @@ from ..models.files import File
 
 class FileSerializer(serializers.Serializer):
 
-    id = serializers.IntegerField(read_only=True)
+    pk = serializers.IntegerField(read_only=True)
     title = serializers.CharField(required=True, max_length=128)
     text = serializers.CharField(allow_blank=True)
     author = serializers.ReadOnlyField(source='author.username')
@@ -24,5 +24,5 @@ class FileSerializer(serializers.Serializer):
 
 class FileMetaSerializer(serializers.Serializer):
 
-    id = serializers.IntegerField(read_only=True)
+    pk = serializers.IntegerField(read_only=True)
     title = title = serializers.CharField(required=True, max_length=128)

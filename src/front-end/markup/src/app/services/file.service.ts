@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {map, tap} from 'rxjs/operators';
 
 import { File } from "../models/file";
 
@@ -26,12 +25,12 @@ export class FileService {
 
   updateFile(file: File) {
     console.log('Update file');
-    return this.http.put('http://localhost:8000/api/file/' + file.id, file);
+    return this.http.put('http://localhost:8000/api/file/' + file.pk, file);
   }
 
   deleteFile(file: File) {
     console.log('delete file');
-    return this.http.delete('http://localhost:8000/api/file/' + file.id);
+    return this.http.delete('http://localhost:8000/api/file/' + file.pk);
   }
 
 

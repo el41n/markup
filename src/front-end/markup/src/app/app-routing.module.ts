@@ -5,6 +5,7 @@ import { TextComponent } from "./text/text.component";
 import { LoginComponent } from "./login/login.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { RegisterComponent } from "./register/register.component";
+import {ResetComponent} from "./reset/reset.component";
 
 
 const routes: Routes = [
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'settings', component: SettingsComponent },
   { path: 'signin', component: RegisterComponent },
+  {path: 'reset', component: ResetComponent}
 ];
 
 @NgModule({

@@ -3,45 +3,40 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions
 from guardian.decorators import permission_required_or_403
 from guardian.shortcuts import assign_perm, get_objects_for_user
-from rest_framework.authentication import TokenAuthentication
 
-from ..models import File, CustomUser, FILE_PERMISSIONS
+from ..models import File
 from ..serializers import FileSerializer, FileMetaSerializer
-
-from functools import reduce
 
 class FileList(APIView):
 
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         user = self.request.user
-        if self.request.user.has_perm('r_file'):
-            print("Has perm")
-        files = File.objects.filter(author=user)
-        perm = reduce(lambda acc, x: acc + ' ' + str(x[0]), FILE_PERMISSIONS, '')
-        sh_files = get_objects_for_user(user, perms=['rm_file', 'r_file'], klass=File, any_perm=True)
-        serializer = FileMetaSerializer(files, many=True)
-
-        return Response(serializer.data)
+        sh_files = get_objects_for_user(user, perms=['rm_file', 'r_file', 'rw_file'], klass=File, any_perm=True)
+        shared_serializer = FileMetaSerializer(sh_files, many=True)
+        return Response(shared_serializer.data)
 
     def post(self, request):
         serializer = FileSerializer(data=request.data)
         if serializer.is_valid():
             author = self.request.user
             serializer.save(author=author)
-            obj = File.objects.get(pk=serializer.data.get('id'))
+            obj = File.objects.get(pk=serializer.data.get('pk'))
             assign_perm('rm_file', author, obj)
-            assign_perm('rw_file', author, obj)
-            c = get_objects_for_user(author, 'rm_file', File)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class FileDetail(APIView):
+
+    permission_classes = [IsAuthenticated]
 
     @staticmethod
     def get_object(pk):
@@ -52,25 +47,28 @@ class FileDetail(APIView):
 
     def get(self, request, pk):
         file = self.get_object(pk)
-        serializer = FileSerializer(file)
-        return Response(serializer.data)
+        if request.user.has_perm('r_file', file) or request.user.has_perm('rw_file', file) or \
+                request.user.has_perm('rm_file', file):
+            serializer = FileSerializer(file)
+            return Response(serializer.data)
+        else:
+            return Response("No permission", status=status.HTTP_403_FORBIDDEN)
 
     def put(self, request, pk):
         file = self.get_object(pk)
-        serializer = FileSerializer(file, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def patch(self, request, pk):
-        file = self.get_object(pk)
-        perm = request.data['permission']
-        grant_user = CustomUser.objects.get(pk=request.data['grant_user'])
-        assign_perm(perm, grant_user, file)
-        return Response()
+        if request.user.has_perm('rw_file', file) or request.user.has_perm('rm_file', file):
+            serializer = FileSerializer(file, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response("No permission", status=status.HTTP_403_FORBIDDEN)
 
     def delete(self, request, pk):
         file = self.get_object(pk)
-        file.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        if request.user.has_perm('rm_file', file):
+            file.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response("No permission", status=status.HTTP_403_FORBIDDEN)

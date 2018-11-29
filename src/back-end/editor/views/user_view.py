@@ -55,3 +55,15 @@ def null_view(request):
 def success_email_confirm(request, key):
     front_url = 'http://localhost:4001/login'
     return redirect(front_url)
+
+
+@api_view()
+def redirect_front_login(request):
+    front_url = 'http://localhost:4001/login'
+    return redirect(front_url)
+
+
+@api_view()
+def redirect_front_register(request):
+    front_url = 'http://localhost:4001/signin'
+    return redirect(front_url)

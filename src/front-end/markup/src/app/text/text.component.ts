@@ -86,18 +86,16 @@ export class TextComponent implements OnInit {
     if (this.workingFile.pk) {
       this.fileService.updateFile(this.workingFile)
         .subscribe((next) => {
-        }, error1 => {
+        }, error => { this.alertService.error(error);
         }, () =>
           this.update());
-      this.alertService.success('Updated');
     }
     else {
       this.fileService.createFile(this.workingFile)
         .subscribe((next) => {
-        }, (error) => {
+        }, (error) => { this.alertService.error(error);
         }, () =>
           this.update());
-          this.alertService.success('Created');
     }
   }
 
@@ -105,10 +103,9 @@ export class TextComponent implements OnInit {
     if (this.workingFile.pk) {
       this.fileService.deleteFile(this.workingFile)
         .subscribe((next) => {
-        }, (error) => {
+        }, (error) => { this.alertService.error(error);
         }, () =>
           this.update());
-          this.alertService.success('Deleted');
     }
     this.createFile();
   }
