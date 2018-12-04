@@ -5,6 +5,8 @@ Markup is web markdown language editor. Requirements [RU](https://github.com/el4
 ## Getting Started
 
 ## [Documentation](https://github.com/el41n/markup/blob/master/docs/)
+## [Test plan](docs/test_plan.md)
+
 
 ### Prerequisites
 
